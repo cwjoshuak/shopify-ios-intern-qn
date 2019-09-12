@@ -26,6 +26,17 @@ class OptionTableViewCell: UITableViewCell {
     }
     
     @IBAction func stepperChanged(_ sender: UIStepper) {
-        counterLabel.text = Int(sender.value).description
+        
+        // Notification post handled in HomeViewController
+        switch sender.tag {
+        case 0:
+            NotificationCenter.default.post(name: NSNotification.Name("rowChanged"), object: self)
+        case 1:
+            NotificationCenter.default.post(name: NSNotification.Name("colChanged"), object: self)
+        case 2:
+            NotificationCenter.default.post(name: NSNotification.Name("patternMatchesChanged"), object: self)
+        default:
+            return
+        }
     }
 }
