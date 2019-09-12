@@ -90,7 +90,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GBE-Yx-AXx">
                                         <rect key="frame" x="303.5" y="16" width="94.5" height="18"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="UBm-wS-E3V"/>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="100" id="UBm-wS-E3V"/>
                                         </constraints>
                                         <state key="normal" image="shuffle" catalog="system"/>
                                         <connections>

@@ -31,17 +31,39 @@ class GameViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(incrementSuccess(notification:)), name: .init("incrementSuccess"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(incrementFails(notification:)), name: .init("incrementFails"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateStartingLabel(notification:)), name: .init("updateStartingLabel"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(endGame(notification:)), name: .init("endGame"), object: nil)
+        
         scene = GameScene(size: gameView.frame.size, rows: rows, cols: cols, matchedPatterns: self.patternMatches, textures: self.textures)
         self.view.backgroundColor = .init(red: 0.149, green: 0.149, blue: 0.149, alpha: 1.0)
-        
-        gameView.showsFPS = true
-        gameView.showsNodeCount = true
+        gameView.showsFPS = false
+        gameView.showsNodeCount = false
         gameView.ignoresSiblingOrder = true
         scene.scaleMode = .aspectFill
-        
         gameView.presentScene(scene)
 
     }
+    @IBAction func shufflePress(_ sender: UIButton) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "shuffleGrid"), object: nil)
+    }
+    
+    @IBAction func goBackHome(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    override var shouldAutorotate: Bool {
+        return true
+    }
+    
+    // MARK:- Utility functions
+    // increment success matches counter
+    @objc func incrementSuccess(notification: NSNotification) {
+        successCounter.text = (Int(successCounter.text!)! + 1).description
+    }
+    // increment failed matches counter
+    @objc func incrementFails(notification: NSNotification) {
+        failedCounter.text = (Int(failedCounter.text!)! + 1).description
+    }
+    
+    // ready set go!
     @objc func updateStartingLabel(notification: NSNotification) {
         if let timer = notification.object as? Timer {
             DispatchQueue.main.async {
@@ -50,7 +72,7 @@ class GameViewController: UIViewController {
                         case 2:
                             self.startingLabel.text = "Get Set.."
                         case 1:
-                            self.startingLabel.text = "Go!"
+                            self.startingLabel.text = "Go!!"
                     case 0:
                         self.startingLabel.isHidden = true
                         self.matchesStackView.isHidden = false
@@ -63,22 +85,13 @@ class GameViewController: UIViewController {
             }
         }
     }
-    @IBAction func shufflePress(_ sender: UIButton) {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "shuffleGrid"), object: nil)
-    }
-    
-    @IBAction func goBackHome(_ sender: UIButton) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    override var shouldAutorotate: Bool {
-        return true
-    }
-
-    @objc func incrementSuccess(notification: NSNotification) {
-        successCounter.text = (Int(successCounter.text!)! + 1).description
-    }
-    @objc func incrementFails(notification: NSNotification) {
-        failedCounter.text = (Int(failedCounter.text!)! + 1).description
+    @objc func endGame(notification: NSNotification) {
+        if !startingLabel.isHidden { return }
+        UIView.animate(withDuration: 0.3) {
+            self.startingLabel.text = "Great Job! Play again?"
+            self.startingLabel.isHidden = false
+            self.matchesStackView.isHidden = true
+        }
     }
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         if UIDevice.current.userInterfaceIdiom == .phone {

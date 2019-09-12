@@ -27,9 +27,11 @@ class Grid: SKSpriteNode {
         self.cols = cols
         self.isUserInteractionEnabled = true
         NotificationCenter.default.addObserver(self, selector: #selector(shuffleGrid), name: NSNotification.Name(rawValue: "shuffleGrid"), object: nil)
+
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
         hideSelectedNodes(animated: false)
         
         for touch in touches {
@@ -50,6 +52,12 @@ class Grid: SKSpriteNode {
                 }
             }
         }
+        
+    }
+    func checkGameEnd() {
+        if self.children.allSatisfy({ $0.alpha == 1.0 }) {
+            NotificationCenter.default.post(name: .init("endGame"), object: nil)
+        }
     }
     func hideSelectedNodes(animated: Bool) {
         hidingTimer?.invalidate()
@@ -68,6 +76,7 @@ class Grid: SKSpriteNode {
             }
             selectedNodes = [SKNode]()
         }
+        checkGameEnd()
     }
     class func gridTexture(width:CGFloat, height:CGFloat,rows:Int,cols:Int) -> SKTexture? {
         

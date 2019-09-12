@@ -97,9 +97,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             if success, let items = items {
                 self.items = items
             }
+            // progress bar
             let progress = Progress(totalUnitCount: 100)
             self.progressView.observedProgress = progress
             
+            // download images and convert into textures, then perform segue
             DispatchQueue.main.async {
                 let (_, _, _, totalImgs) = self.getSettings()
                 let selectedItems = self.items.products.shuffled()[0..<totalImgs]
@@ -107,15 +109,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     URL(string: product.image.src)!
                 }
                 urls.forEach { (url) in
-                    print(url)
                     let task = Utility.getAssets(from: url) { (success, image, error) in
                         if success, let image = image {
-                            print("appending image")
                             self.assets[url.absoluteString, default:[]].append(image)
                             let count = self.assets.reduce(into: 0) { (sum, args) in
                                 sum += args.value.count
                             }
-                            print("imgCount: \(count), totalImgs: \(totalImgs)")
                             if count == totalImgs {
                                 DispatchQueue.main.sync {
                                     sender.isUserInteractionEnabled = true
