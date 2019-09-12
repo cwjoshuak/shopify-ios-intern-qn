@@ -83,11 +83,19 @@
                                             <constraint firstAttribute="width" constant="64" id="NTR-tx-iZH"/>
                                         </constraints>
                                         <state key="normal" title="Menu"/>
+                                        <connections>
+                                            <action selector="goBackHome:" destination="BV1-FR-VrT" eventType="touchUpInside" id="Xja-AZ-dmb"/>
+                                        </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GBE-Yx-AXx">
-                                        <rect key="frame" x="360" y="10" width="46" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GBE-Yx-AXx">
+                                        <rect key="frame" x="334" y="16" width="64" height="18"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="64" id="UBm-wS-E3V"/>
+                                        </constraints>
                                         <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="shufflePress:" destination="BV1-FR-VrT" eventType="touchUpInside" id="glb-q6-waD"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -95,6 +103,9 @@
                                     <constraint firstAttribute="bottom" secondItem="9N5-Wd-xpI" secondAttribute="bottom" constant="16" id="5Fn-YX-wc2"/>
                                     <constraint firstItem="9N5-Wd-xpI" firstAttribute="top" secondItem="cw2-GM-Ljr" secondAttribute="top" constant="16" id="ESO-qq-c50"/>
                                     <constraint firstItem="9N5-Wd-xpI" firstAttribute="leading" secondItem="cw2-GM-Ljr" secondAttribute="leading" constant="16" id="Mgi-9y-Upa"/>
+                                    <constraint firstAttribute="bottom" secondItem="GBE-Yx-AXx" secondAttribute="bottom" constant="16" id="gYl-jK-kyg"/>
+                                    <constraint firstAttribute="trailing" secondItem="GBE-Yx-AXx" secondAttribute="trailing" constant="16" id="sTm-5g-Ecq"/>
+                                    <constraint firstItem="GBE-Yx-AXx" firstAttribute="top" secondItem="cw2-GM-Ljr" secondAttribute="top" constant="16" id="xOi-fA-T2O"/>
                                     <constraint firstAttribute="height" constant="50" id="y6H-Xi-GMv"/>
                                 </constraints>
                             </view>
