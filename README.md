@@ -19,8 +19,8 @@ Matching Game Problem for Shopify Mobile Development Intern in iOS
 9. The player with the most matches wins.
 
 ## Bonuses!
-- [ ] Make the game configurable to match 3 or 4 of the same products instead of 2.
-- [ ] Make the grid size configurable. (The player needs to match more than 10 sets of the same product).
+- [x] Make the game configurable to match 3 or 4 of the same products instead of 2.
+- [x] Make the grid size configurable. (The player needs to match more than 10 sets of the same product).
 - [ ] Build a slick screen that keeps track of the user’s score.
-- [ ] Make a button that shuffles the game.
+- [x] Make a button that shuffles the game.
 - [ ] Feel free to make the app beautiful and add anything else you think would be cool!
