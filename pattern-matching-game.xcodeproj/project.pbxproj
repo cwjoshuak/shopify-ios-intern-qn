@@ -51,6 +51,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B2D41842232A5DC800A7FE2D /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				B253A9492329C9740000A470 /* HomeViewController.swift */,
+				B2DEBEAF2328DDBF00619F57 /* GameViewController.swift */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		B2D41843232A5DD900A7FE2D /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				B2DEBEAD2328DDBF00619F57 /* GameScene.swift */,
+				B253A9422329A7160000A470 /* Grid.swift */,
+			);
+			path = Game;
+			sourceTree = "<group>";
+		};
+		B2D41844232A5DF200A7FE2D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B2DEBEAB2328DDBF00619F57 /* Actions.sks */,
+				B2DEBEB42328DDBF00619F57 /* Assets.xcassets */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		B2DEBE9B2328DDBF00619F57 = {
 			isa = PBXGroup;
 			children = (
@@ -71,17 +98,14 @@
 			isa = PBXGroup;
 			children = (
 				B2DEBEA72328DDBF00619F57 /* AppDelegate.swift */,
-				B2DEBEAB2328DDBF00619F57 /* Actions.sks */,
-				B2DEBEAD2328DDBF00619F57 /* GameScene.swift */,
-				B253A9442329B9150000A470 /* Items.swift */,
-				B253A9422329A7160000A470 /* Grid.swift */,
-				B2DEBEAF2328DDBF00619F57 /* GameViewController.swift */,
 				B2DEBEB12328DDBF00619F57 /* Main.storyboard */,
+				B2D41843232A5DD900A7FE2D /* Game */,
+				B253A9442329B9150000A470 /* Items.swift */,
 				B253A94D2329CE360000A470 /* OptionTableViewCell.swift */,
 				B253A94E2329CE360000A470 /* OptionTableViewCell.xib */,
-				B253A9492329C9740000A470 /* HomeViewController.swift */,
 				B253A9462329B9E70000A470 /* Utility.swift */,
-				B2DEBEB42328DDBF00619F57 /* Assets.xcassets */,
+				B2D41842232A5DC800A7FE2D /* ViewControllers */,
+				B2D41844232A5DF200A7FE2D /* Resources */,
 				B2DEBEB62328DDBF00619F57 /* LaunchScreen.storyboard */,
 				B2DEBEB92328DDBF00619F57 /* Info.plist */,
 			);
