@@ -15,6 +15,7 @@ class Grid: SKSpriteNode {
     var width:CGFloat!
     var height:CGFloat!
     var selectedNodes = [SKNode]()
+    var hidingTimer: Timer?
     convenience init?(width:CGFloat, height:CGFloat, rows:Int, cols:Int) {
         guard let texture = Grid.gridTexture(width: width, height: height, rows: rows, cols: cols) else {
             return nil
@@ -29,28 +30,20 @@ class Grid: SKSpriteNode {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        hideSelectedNodes(animated: false)
+        
         for touch in touches {
             let position = touch.location(in:self)
             
             self.children.forEach { (node) in
                 if node.contains(position) {
                     if node.alpha == 0 {
-                        node.run(SKAction.fadeIn(withDuration: 0.2))
+                        node.run(SKAction.fadeIn(withDuration: 0.15))
                         selectedNodes.append(node)
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                            if self.selectedNodes.count == 2 {
-                                
-                                if self.selectedNodes[0].name != self.selectedNodes[1].name {
-                                    self.selectedNodes.forEach { (sNode) in
-                                        sNode.run(SKAction.fadeOut(withDuration: 0.3))
-                                    }
-                                }
-                            }
-
-                            self.selectedNodes = [SKNode]()
+                        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { (timer) in
+                            timer.invalidate()
+                            self.hideSelectedNodes(animated: true)
                         }
-                        
                     } else {
                         node.run(SKAction.rotate(byAngle: CGFloat.pi*2, duration: 1))
                     }
@@ -58,7 +51,24 @@ class Grid: SKSpriteNode {
             }
         }
     }
-    
+    func hideSelectedNodes(animated: Bool) {
+        hidingTimer?.invalidate()
+        if selectedNodes.count >= 2 {
+            if self.selectedNodes[0].name != self.selectedNodes[1].name {
+                self.selectedNodes.forEach { (sNode) in
+                    if animated {
+                        sNode.run(SKAction.fadeOut(withDuration: 0.1))
+                    } else {
+                        sNode.run(SKAction.fadeOut(withDuration: 0.0))
+                    }
+                }
+                NotificationCenter.default.post(name: .init("incrementFails"), object: nil)
+            } else {
+                NotificationCenter.default.post(name: .init("incrementSuccess"), object: nil)
+            }
+            selectedNodes = [SKNode]()
+        }
+    }
     class func gridTexture(width:CGFloat, height:CGFloat,rows:Int,cols:Int) -> SKTexture? {
         
         let size = CGSize(width: CGFloat(cols)*width+1.0, height: CGFloat(rows)*height+1.0)

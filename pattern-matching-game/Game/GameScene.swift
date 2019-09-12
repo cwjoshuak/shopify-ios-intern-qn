@@ -30,31 +30,8 @@ class GameScene: SKScene {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func initializeGrid(_ grid: Grid) {
-        var selectedTextures = [SKTexture]()
-        for _ in 0..<(Int(rows * cols) / matchedPatterns){
-            let elem = textures.randomElement()!
-            for _ in 0..<matchedPatterns { selectedTextures.append(elem.value.randomElement()!) }
-        }
-        
-        for row in 0..<grid.rows {
-            for col in 0..<grid.cols {
-                let index = row + (row * Int(cols-1)) + col
-                let gamePiece = SKSpriteNode(texture: selectedTextures[index])
-                gamePiece.name = textures.filter({ (key: String, value: [SKTexture]) -> Bool in
-                    value.contains(selectedTextures[index])
-                    }).first?.key
-                gamePiece.setScale(0.38 * 12 / CGFloat(grid.cols * grid.rows))
-                gamePiece.zPosition = grid.zPosition+1
-                gamePiece.position = grid.gridPosition(row: row, col: col)
-                grid.addChild(gamePiece)
-                
-            }
-        }
-        
-    }
-    
     override func didMove(to view: SKView) {
+        // on initial vc show, initialize grid
         let bounds = view.bounds.size
         let width = (bounds.width  - (cols)) / cols
         let height = (bounds.height - (rows)) / (rows+0.5)
@@ -64,8 +41,11 @@ class GameScene: SKScene {
             
             initializeGrid(grid)
             
+            Timer.scheduledTimer(withTimeInterval: 1.34, repeats: true) { (timer) in
+                NotificationCenter.default.post(name: .init("updateStartingLabel"), object: timer)
+            }
+            // hide sprites after 4 seconds
             DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
-                
                 grid.children.forEach { (node) in
                     node.run(SKAction.fadeOut(withDuration: 0.4))
                 }
@@ -78,7 +58,6 @@ class GameScene: SKScene {
         
         if let spinnyNode = self.spinnyNode {
             spinnyNode.lineWidth = 2.5
-            
             spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
             spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
                                               SKAction.fadeOut(withDuration: 0.5),
@@ -131,8 +110,33 @@ class GameScene: SKScene {
         for t in touches { self.touchUp(atPoint: t.location(in: self)) }
     }
     
-    
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
     }
+    
+    func initializeGrid(_ grid: Grid) {
+        var selectedTextures = [SKTexture]()
+        for _ in 0..<(Int(rows * cols) / matchedPatterns){
+            let elem = textures.randomElement()!
+            for _ in 0..<matchedPatterns { selectedTextures.append(elem.value.randomElement()!) }
+        }
+        
+        for row in 0..<grid.rows {
+            for col in 0..<grid.cols {
+                let index = row + (row * Int(cols-1)) + col
+                let gamePiece = SKSpriteNode(texture: selectedTextures[index])
+                gamePiece.name = textures.filter({ (key: String, value: [SKTexture]) -> Bool in
+                    value.contains(selectedTextures[index])
+                    }).first?.key
+                gamePiece.setScale(0.38 * 12 / CGFloat(grid.cols * grid.rows))
+                gamePiece.zPosition = grid.zPosition+1
+                gamePiece.position = grid.gridPosition(row: row, col: col)
+                grid.addChild(gamePiece)
+                
+            }
+        }
+        grid.shuffleGrid()
+        
+    }
+    
 }

@@ -28,7 +28,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.allowsSelection = false
         NotificationCenter.default.addObserver(self, selector: #selector(rowChanged(notification:)), name: NSNotification.Name("rowChanged"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(colChanged(notification:)), name: NSNotification.Name("colChanged"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(colChanged(notification:)), name: NSNotification.Name("patternMatchesChanged"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(patternMatchesChanged(notification:)), name: NSNotification.Name("patternMatchesChanged"), object: nil)
 
 
     }
@@ -78,8 +78,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "optionCell") as! OptionTableViewCell
             cell.titleLabel.text = "Image Variety"
-            cell.counterLabel.text = "10"
-            cell.stepper.value = 10
+            cell.counterLabel.text = "35"
+            cell.stepper.value = 35
             cell.stepper.minimumValue = 10
             cell.stepper.maximumValue = 50
             cell.stepper.tag = 3
@@ -111,22 +111,21 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     let task = Utility.getAssets(from: url) { (success, image, error) in
                         if success, let image = image {
                             print("appending image")
-                            self.assets[url.absoluteString, default:[image]].append(image)
-                        }
-                        let count = self.assets.reduce(into: 0) { (sum, args) in
-                            sum += args.value.count
-                        }
-                        if count == totalImgs {
-                            DispatchQueue.main.async {
-                                sender.isUserInteractionEnabled = true
-                                
-                                self.performSegue(withIdentifier: "startGameSegue", sender: self)
-                                self.progressView.setProgress(0.0, animated: false)
+                            self.assets[url.absoluteString, default:[]].append(image)
+                            let count = self.assets.reduce(into: 0) { (sum, args) in
+                                sum += args.value.count
                             }
-                            
+                            print("imgCount: \(count), totalImgs: \(totalImgs)")
+                            if count == totalImgs {
+                                DispatchQueue.main.sync {
+                                    sender.isUserInteractionEnabled = true
+                                    
+                                    self.performSegue(withIdentifier: "startGameSegue", sender: self)
+                                    self.progressView.setProgress(0.0, animated: false)
+                                }
+                            }
                         }
                     }
-                    
                     progress.addChild(task.progress, withPendingUnitCount: Int64(100/urls.count))
                     task.resume()
                 }                
@@ -146,8 +145,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             let textures = self.assets.mapValues { (images) -> [SKTexture] in
                 images.map { SKTexture(image: $0) }
             }
-            
-            // SKTexture.preload(textures.) { }
             dest.rows = rows
             dest.cols = cols
             dest.patternMatches = patternMatches
