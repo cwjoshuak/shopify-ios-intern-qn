@@ -62,7 +62,8 @@ class Grid: SKSpriteNode {
     func hideSelectedNodes(animated: Bool) {
         hidingTimer?.invalidate()
         if selectedNodes.count >= 2 {
-            if self.selectedNodes[0].name != self.selectedNodes[1].name {
+            if !self.selectedNodes.allSatisfy({ $0.name == self.selectedNodes[0].name }) {
+                
                 self.selectedNodes.forEach { (sNode) in
                     if animated {
                         sNode.run(SKAction.fadeOut(withDuration: 0.1))
