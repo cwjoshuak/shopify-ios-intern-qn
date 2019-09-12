@@ -16,17 +16,43 @@ class GameScene: SKScene {
     var rows: CGFloat = 6.0
     var cols: CGFloat = 5.0
     var matchedPatterns: Int = 2
-    init(size: CGSize, rows: Int, cols: Int, matchedPatterns: Int, textures: [SKTexture]) {
+    var textures: [String:[SKTexture]]!
+    
+    init(size: CGSize, rows: Int, cols: Int, matchedPatterns: Int, textures: [String:[SKTexture]]) {
         super.init(size: size)
         self.rows = CGFloat(rows)
         self.cols = CGFloat(cols)
         self.matchedPatterns = matchedPatterns
+        self.textures = textures
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func initializeGrid(_ grid: Grid) {
+        var selectedTextures = [SKTexture]()
+        for _ in 0..<(Int(rows * cols) / matchedPatterns){
+            let elem = textures.randomElement()!
+            for _ in 0..<matchedPatterns { selectedTextures.append(elem.value.randomElement()!) }
+        }
+        
+        for row in 0..<grid.rows {
+            for col in 0..<grid.cols {
+                let index = row + (row * Int(cols-1)) + col
+                let gamePiece = SKSpriteNode(texture: selectedTextures[index])
+                gamePiece.name = textures.filter({ (key: String, value: [SKTexture]) -> Bool in
+                    value.contains(selectedTextures[index])
+                    }).first?.key
+                gamePiece.setScale(0.38 * 12 / CGFloat(grid.cols * grid.rows))
+                gamePiece.zPosition = grid.zPosition+1
+                gamePiece.position = grid.gridPosition(row: row, col: col)
+                grid.addChild(gamePiece)
+                
+            }
+        }
+        
+    }
     
     override func didMove(to view: SKView) {
         let bounds = view.bounds.size
@@ -36,10 +62,14 @@ class GameScene: SKScene {
             grid.position = CGPoint (x:frame.midX, y:frame.midY)
             addChild(grid)
             
-            let gamePiece = SKSpriteNode(imageNamed: "Spaceship")
-            gamePiece.setScale(0.1)
-            gamePiece.position = grid.gridPosition(row: 1, col: 0)
-            grid.addChild(gamePiece)
+            initializeGrid(grid)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+                
+                grid.children.forEach { (node) in
+                    node.run(SKAction.fadeOut(withDuration: 0.4))
+                }
+            }
         }
         
         // Create shape node to use during mouse interaction
