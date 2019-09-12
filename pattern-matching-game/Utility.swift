@@ -51,22 +51,15 @@ class Utility {
         progressView.observedProgress = task.progress
     }
     
-    static func getAssets(from urls: [URL], progressView: UIProgressView, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
-        var assets = [UIImage]()
-        let progress = Progress(totalUnitCount: 100)
-        progressView.observedProgress = progress
-        urls.forEach { (url) in
-            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-                guard let dataResponse = data, error == nil else {
-                    print(error?.localizedDescription ?? "Response Error")
-                    return }
-                assets.append(UIImage(data: dataResponse)!)
-            }
-            progress.addChild(task.progress, withPendingUnitCount: Int64(100/urls.count))
-            task.resume()
+    static func getAssets(from url: URL, completion: @escaping (_ success: Bool, _ image: UIImage?, _ error: Error?) -> Void) -> URLSessionTask {
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            guard let dataResponse = data, error == nil else {
+                print(error?.localizedDescription ?? "Response Error")
+                completion(false, nil, error)
+                return }
+            completion(true, UIImage(data: dataResponse), nil)
         }
-        
-        
+        return task
     }
     
 }

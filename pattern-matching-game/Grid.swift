@@ -14,7 +14,7 @@ class Grid: SKSpriteNode {
     var cols:Int!
     var width:CGFloat!
     var height:CGFloat!
-
+    var selectedNodes = [SKNode]()
     convenience init?(width:CGFloat, height:CGFloat, rows:Int, cols:Int) {
         guard let texture = Grid.gridTexture(width: width, height: height, rows: rows, cols: cols) else {
             return nil
@@ -25,28 +25,42 @@ class Grid: SKSpriteNode {
         self.rows = rows
         self.cols = cols
         self.isUserInteractionEnabled = true
+        NotificationCenter.default.addObserver(self, selector: #selector(shuffleGrid), name: NSNotification.Name(rawValue: "shuffleGrid"), object: nil)
     }
-
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let position = touch.location(in:self)
-            let node = atPoint(position)
-            if node != self {
-                let action = SKAction.rotate(byAngle: CGFloat.pi*2, duration: 1)
-                node.run(action)
-            }
-            else {
-                let x = size.width / 2 + position.x
-                let y = size.height / 2 - position.y
-                let row = Int(floor(x / width))
-                let col = Int(floor(y / height))
-                print("\(row) \(col)")
+            
+            self.children.forEach { (node) in
+                if node.contains(position) {
+                    if node.alpha == 0 {
+                        node.run(SKAction.fadeIn(withDuration: 0.2))
+                        selectedNodes.append(node)
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            if self.selectedNodes.count == 2 {
+                                
+                                if self.selectedNodes[0].name != self.selectedNodes[1].name {
+                                    self.selectedNodes.forEach { (sNode) in
+                                        sNode.run(SKAction.fadeOut(withDuration: 0.3))
+                                    }
+                                }
+                            }
+
+                            self.selectedNodes = [SKNode]()
+                        }
+                        
+                    } else {
+                        node.run(SKAction.rotate(byAngle: CGFloat.pi*2, duration: 1))
+                    }
+                }
             }
         }
     }
     
     class func gridTexture(width:CGFloat, height:CGFloat,rows:Int,cols:Int) -> SKTexture? {
-        // Add 1 to the height and width to ensure the borders are within the sprite
+        
         let size = CGSize(width: CGFloat(cols)*width+1.0, height: CGFloat(rows)*height+1.0)
         UIGraphicsBeginImageContext(size)
         
@@ -81,9 +95,25 @@ class Grid: SKSpriteNode {
     }
 
     func gridPosition(row:Int, col:Int) -> CGPoint {
-        let offset = width / 2.0 + 0.5
-        let x = CGFloat(col) * width - (width * CGFloat(cols)) / 2.0 + offset
-        let y = CGFloat(rows - row - 1) * height - (height * CGFloat(rows)) / 2.0 + offset
+        let widthOffset = width / 2.0 + 0.5
+        let heightOffset = height / 2.0 + 1.5
+        let x = CGFloat(col) * width - (width * CGFloat(cols)) / 2.0 + widthOffset
+        let y = CGFloat(rows - row - 1) * height - (height * CGFloat(rows)) / 2.0 + heightOffset
         return CGPoint(x:x, y:y)
+    }
+    
+    @objc func shuffleGrid() {
+        var tupleArray = [(Int, Int)]()
+        for r in 0..<rows {
+            for c in 0..<cols {
+                tupleArray.append((r,c))
+            }
+        }
+        tupleArray.shuffle()
+        var sum = 0
+        self.children.forEach { (node) in
+            node.run(SKAction.move(to: gridPosition(row: tupleArray[sum].0, col: tupleArray[sum].1), duration: 0.3))
+            sum += 1
+        }
     }
 }
