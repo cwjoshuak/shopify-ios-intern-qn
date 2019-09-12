@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="HPt-cV-iMU">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Home View Controller-->
+        <scene sceneID="2cv-0w-PeU">
+            <objects>
+                <viewController id="HPt-cV-iMU" customClass="HomeViewController" customModule="pattern_matching_game" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zen-C0-1Wz">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cQa-qM-aBM">
+                                <rect key="frame" x="132" y="810" width="150" height="2"/>
+                            </progressView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="InR-vv-Hws">
+                                <rect key="frame" x="40" y="560" width="334" height="210"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="210" id="b3I-Bl-Cps"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="dataSource" destination="HPt-cV-iMU" id="tso-aK-d3c"/>
+                                    <outlet property="delegate" destination="HPt-cV-iMU" id="YLW-cG-TJc"/>
+                                </connections>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bji-pj-UKA">
+                                <rect key="frame" x="145" y="126" width="124" height="407"/>
+                                <state key="normal" title="Start Game"/>
+                                <connections>
+                                    <action selector="startGame:" destination="HPt-cV-iMU" eventType="touchUpInside" id="H5n-A9-Q14"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="bji-pj-UKA" firstAttribute="top" secondItem="r4T-vm-FZM" secondAttribute="top" constant="82" id="0qe-k2-gVc"/>
+                            <constraint firstItem="cQa-qM-aBM" firstAttribute="top" secondItem="InR-vv-Hws" secondAttribute="bottom" constant="40" id="4jd-kd-x20"/>
+                            <constraint firstItem="r4T-vm-FZM" firstAttribute="bottom" secondItem="cQa-qM-aBM" secondAttribute="bottom" constant="50" id="8W3-or-fsN"/>
+                            <constraint firstItem="bji-pj-UKA" firstAttribute="leading" secondItem="r4T-vm-FZM" secondAttribute="leading" constant="145" id="CFM-Ue-BTA"/>
+                            <constraint firstItem="InR-vv-Hws" firstAttribute="leading" secondItem="r4T-vm-FZM" secondAttribute="leading" constant="40" id="CIn-oV-HQJ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="cQa-qM-aBM" secondAttribute="trailing" constant="112" id="FEv-vv-mXX"/>
+                            <constraint firstItem="r4T-vm-FZM" firstAttribute="trailing" secondItem="InR-vv-Hws" secondAttribute="trailing" constant="40" id="juT-yH-Srg"/>
+                            <constraint firstItem="InR-vv-Hws" firstAttribute="top" secondItem="bji-pj-UKA" secondAttribute="bottom" constant="27" id="oxT-hw-PJr"/>
+                            <constraint firstItem="r4T-vm-FZM" firstAttribute="trailing" secondItem="bji-pj-UKA" secondAttribute="trailing" constant="145" id="wv4-bu-eKq"/>
+                            <constraint firstItem="cQa-qM-aBM" firstAttribute="leading" secondItem="zen-C0-1Wz" secondAttribute="leadingMargin" constant="112" id="zmQ-sA-z4L"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="r4T-vm-FZM"/>
+                    </view>
+                    <connections>
+                        <outlet property="progressView" destination="cQa-qM-aBM" id="Sti-59-I82"/>
+                        <outlet property="tableView" destination="InR-vv-Hws" id="Mxh-xu-Ny4"/>
+                        <segue destination="BV1-FR-VrT" kind="presentation" identifier="startGameSegue" modalPresentationStyle="fullScreen" id="fFM-0h-N7v"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NMn-ag-OVA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="50.724637681159422" y="61.607142857142854"/>
+        </scene>
+        <!--Game View Controller-->
+        <scene sceneID="tXr-a1-R10">
+            <objects>
+                <viewController id="BV1-FR-VrT" customClass="GameViewController" customModule="pattern_matching_game" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <skView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MMH-hS-LSq">
+                                <rect key="frame" x="0.0" y="94" width="414" height="768"/>
+                            </skView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cw2-GM-Ljr">
+                                <rect key="frame" x="0.0" y="44" width="414" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9N5-Wd-xpI">
+                                        <rect key="frame" x="16" y="16" width="64" height="18"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="64" id="NTR-tx-iZH"/>
+                                        </constraints>
+                                        <state key="normal" title="Menu"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GBE-Yx-AXx">
+                                        <rect key="frame" x="360" y="10" width="46" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Button"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="9N5-Wd-xpI" secondAttribute="bottom" constant="16" id="5Fn-YX-wc2"/>
+                                    <constraint firstItem="9N5-Wd-xpI" firstAttribute="top" secondItem="cw2-GM-Ljr" secondAttribute="top" constant="16" id="ESO-qq-c50"/>
+                                    <constraint firstItem="9N5-Wd-xpI" firstAttribute="leading" secondItem="cw2-GM-Ljr" secondAttribute="leading" constant="16" id="Mgi-9y-Upa"/>
+                                    <constraint firstAttribute="height" constant="50" id="y6H-Xi-GMv"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="MMH-hS-LSq" firstAttribute="top" secondItem="cw2-GM-Ljr" secondAttribute="bottom" id="WxM-hL-cRJ"/>
+                            <constraint firstItem="MMH-hS-LSq" firstAttribute="leading" secondItem="4qk-I5-YsI" secondAttribute="leading" id="eOa-kh-fad"/>
+                            <constraint firstItem="cw2-GM-Ljr" firstAttribute="top" secondItem="4qk-I5-YsI" secondAttribute="top" id="eZX-v1-6KE"/>
+                            <constraint firstItem="MMH-hS-LSq" firstAttribute="trailing" secondItem="4qk-I5-YsI" secondAttribute="trailing" id="oH2-vI-6X8"/>
+                            <constraint firstItem="cw2-GM-Ljr" firstAttribute="leading" secondItem="4qk-I5-YsI" secondAttribute="leading" id="pUM-eP-Joh"/>
+                            <constraint firstItem="cw2-GM-Ljr" firstAttribute="trailing" secondItem="4qk-I5-YsI" secondAttribute="trailing" id="rDN-HA-CZP"/>
+                            <constraint firstItem="MMH-hS-LSq" firstAttribute="bottom" secondItem="4qk-I5-YsI" secondAttribute="bottom" id="u7k-Pp-V2m"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="d4t-6L-fqv"/>
+                    <connections>
+                        <outlet property="gameView" destination="MMH-hS-LSq" id="4r3-O0-Cmy"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1222" y="62"/>
+        </scene>
+    </scenes>
+</document>
