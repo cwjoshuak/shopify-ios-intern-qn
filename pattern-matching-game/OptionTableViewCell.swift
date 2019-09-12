@@ -36,7 +36,7 @@ class OptionTableViewCell: UITableViewCell {
         case 2:
             NotificationCenter.default.post(name: NSNotification.Name("patternMatchesChanged"), object: self)
         default:
-            return
+            counterLabel.text = Int(sender.value).description
         }
     }
 }
