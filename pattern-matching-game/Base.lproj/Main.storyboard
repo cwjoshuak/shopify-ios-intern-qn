@@ -17,10 +17,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cQa-qM-aBM">
-                                <rect key="frame" x="132" y="810" width="150" height="2"/>
+                                <rect key="frame" x="132" y="807" width="150" height="5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="5" id="ar0-3M-Cr7"/>
+                                </constraints>
                             </progressView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="InR-vv-Hws">
-                                <rect key="frame" x="40" y="560" width="334" height="210"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="InR-vv-Hws">
+                                <rect key="frame" x="40" y="557" width="334" height="210"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="210" id="b3I-Bl-Cps"/>
@@ -31,29 +34,41 @@
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bji-pj-UKA">
-                                <rect key="frame" x="145" y="126" width="124" height="407"/>
+                                <rect key="frame" x="40" y="450" width="334" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="Azo-Lr-74A"/>
+                                </constraints>
                                 <state key="normal" title="Start Game"/>
                                 <connections>
                                     <action selector="startGame:" destination="HPt-cV-iMU" eventType="touchUpInside" id="H5n-A9-Q14"/>
                                 </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gqh-Ba-kwu">
+                                <rect key="frame" x="80.5" y="124" width="253" height="253"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="gqh-Ba-kwu" secondAttribute="height" multiplier="1:1" id="ceL-HJ-Vkj"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="bji-pj-UKA" firstAttribute="top" secondItem="r4T-vm-FZM" secondAttribute="top" constant="82" id="0qe-k2-gVc"/>
                             <constraint firstItem="cQa-qM-aBM" firstAttribute="top" secondItem="InR-vv-Hws" secondAttribute="bottom" constant="40" id="4jd-kd-x20"/>
                             <constraint firstItem="r4T-vm-FZM" firstAttribute="bottom" secondItem="cQa-qM-aBM" secondAttribute="bottom" constant="50" id="8W3-or-fsN"/>
-                            <constraint firstItem="bji-pj-UKA" firstAttribute="leading" secondItem="r4T-vm-FZM" secondAttribute="leading" constant="145" id="CFM-Ue-BTA"/>
+                            <constraint firstItem="bji-pj-UKA" firstAttribute="leading" secondItem="r4T-vm-FZM" secondAttribute="leading" constant="40" id="CFM-Ue-BTA"/>
                             <constraint firstItem="InR-vv-Hws" firstAttribute="leading" secondItem="r4T-vm-FZM" secondAttribute="leading" constant="40" id="CIn-oV-HQJ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="cQa-qM-aBM" secondAttribute="trailing" constant="112" id="FEv-vv-mXX"/>
+                            <constraint firstItem="bji-pj-UKA" firstAttribute="top" secondItem="gqh-Ba-kwu" secondAttribute="bottom" constant="73" id="MaI-lX-Yf7"/>
+                            <constraint firstItem="gqh-Ba-kwu" firstAttribute="centerX" secondItem="zen-C0-1Wz" secondAttribute="centerX" id="cC8-3a-9pW"/>
                             <constraint firstItem="r4T-vm-FZM" firstAttribute="trailing" secondItem="InR-vv-Hws" secondAttribute="trailing" constant="40" id="juT-yH-Srg"/>
                             <constraint firstItem="InR-vv-Hws" firstAttribute="top" secondItem="bji-pj-UKA" secondAttribute="bottom" constant="27" id="oxT-hw-PJr"/>
-                            <constraint firstItem="r4T-vm-FZM" firstAttribute="trailing" secondItem="bji-pj-UKA" secondAttribute="trailing" constant="145" id="wv4-bu-eKq"/>
+                            <constraint firstItem="r4T-vm-FZM" firstAttribute="trailing" secondItem="bji-pj-UKA" secondAttribute="trailing" constant="40" id="wv4-bu-eKq"/>
+                            <constraint firstItem="gqh-Ba-kwu" firstAttribute="top" secondItem="r4T-vm-FZM" secondAttribute="top" constant="80" id="xDG-d5-rRX"/>
                             <constraint firstItem="cQa-qM-aBM" firstAttribute="leading" secondItem="zen-C0-1Wz" secondAttribute="leadingMargin" constant="112" id="zmQ-sA-z4L"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="r4T-vm-FZM"/>
                     </view>
                     <connections>
+                        <outlet property="imageView" destination="gqh-Ba-kwu" id="T5m-Js-0Z8"/>
                         <outlet property="progressView" destination="cQa-qM-aBM" id="Sti-59-I82"/>
                         <outlet property="tableView" destination="InR-vv-Hws" id="Mxh-xu-Ny4"/>
                         <segue destination="BV1-FR-VrT" kind="presentation" identifier="startGameSegue" modalPresentationStyle="fullScreen" id="fFM-0h-N7v"/>
