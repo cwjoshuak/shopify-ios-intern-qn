@@ -14,6 +14,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK:- IBOutlets
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var imageView: UIImageView!
     
     // MARK:- Variables
     var items: Items!
@@ -22,7 +23,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         tableView.register(UINib(nibName: "OptionTableViewCell", bundle: nil), forCellReuseIdentifier: "optionCell")
         tableView.allowsSelection = false
@@ -30,9 +31,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         NotificationCenter.default.addObserver(self, selector: #selector(colChanged(notification:)), name: NSNotification.Name("colChanged"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(patternMatchesChanged(notification:)), name: NSNotification.Name("patternMatchesChanged"), object: nil)
 
-
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        imageView.image = UIImage(named: "spr\([1,2,3,4,5].randomElement()!)")
+    }
     // MARK:- UITableView Data Methods
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1

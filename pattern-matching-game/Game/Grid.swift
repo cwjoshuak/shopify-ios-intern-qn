@@ -31,7 +31,6 @@ class Grid: SKSpriteNode {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
         hideSelectedNodes(animated: false)
         
         for touch in touches {
@@ -46,6 +45,7 @@ class Grid: SKSpriteNode {
                             timer.invalidate()
                             self.hideSelectedNodes(animated: true)
                         }
+                        
                     } else {
                         node.run(SKAction.rotate(byAngle: CGFloat.pi*2, duration: 1))
                     }
@@ -59,12 +59,15 @@ class Grid: SKSpriteNode {
             NotificationCenter.default.post(name: .init("endGame"), object: nil)
         }
     }
-    func hideSelectedNodes(animated: Bool) {
-        hidingTimer?.invalidate()
+    @objc func hideSelectedNodes(animated: Bool) {
+        self.isUserInteractionEnabled = false
         if selectedNodes.count >= 2 {
-            if !self.selectedNodes.allSatisfy({ $0.name == self.selectedNodes[0].name }) {
+            let cpy = self.selectedNodes.map { $0 }
+            selectedNodes = [SKNode]()
+            if !cpy.allSatisfy({ $0.name == cpy[0].name }) {
                 
-                self.selectedNodes.forEach { (sNode) in
+                cpy.forEach { (sNode) in
+                    sNode.removeAllActions()
                     if animated {
                         sNode.run(SKAction.fadeOut(withDuration: 0.1))
                     } else {
@@ -75,8 +78,9 @@ class Grid: SKSpriteNode {
             } else {
                 NotificationCenter.default.post(name: .init("incrementSuccess"), object: nil)
             }
-            selectedNodes = [SKNode]()
+            
         }
+        self.isUserInteractionEnabled = true
         checkGameEnd()
     }
     class func gridTexture(width:CGFloat, height:CGFloat,rows:Int,cols:Int) -> SKTexture? {
