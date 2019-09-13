@@ -16,8 +16,6 @@ class Items: Decodable{
             let src: String
         }
         let image: Image
-        
     }
-    
     let products: [Products]
 }

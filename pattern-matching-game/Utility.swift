@@ -36,9 +36,9 @@ class Utility {
                   return }
             
             do{
-                let jsonResponse = try JSONSerialization.jsonObject(with:
-                                       dataResponse, options: [])
-                print(jsonResponse) //Response result
+//                let jsonResponse = try JSONSerialization.jsonObject(with:
+//                                       dataResponse, options: [])
+                // print(jsonResponse) //Response result
                 let decoder = JSONDecoder()
                 let items = try decoder.decode(Items.self, from: dataResponse)
                 completion(true, items, nil)
